@@ -1,8 +1,21 @@
 using OpenHardwareMonitor.Hardware;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
+class nvml { 
+[DllImport("GpuNvidiaPower")]
+static public extern void nvmlLibInit();
+    [DllImport("GpuNvidiaPower")]
+static public extern int getPowerValue();
+}
+
 
 class Motherboard
+
 {
+   
+    
     /*
      * Sensor IDs we want to log, and how they map to Record's DataPoint type
      */
@@ -26,10 +39,15 @@ class Motherboard
         computer.Open();
         computer.CPUEnabled = true;
         computer.GPUEnabled = true;
+         nvml.nvmlLibInit();
     }
 
     public static void Update(Record Record)
     {
+
+      Double gpupowervalue = Convert.ToDouble(nvml.getPowerValue())/1000;
+        Record.Set(Record.DataPoint.GPUPower,gpupowervalue);
+     
         foreach (var hardware in computer.Hardware)
         {
             hardware.Update();

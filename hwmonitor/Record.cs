@@ -13,6 +13,7 @@ public class Record
         CPUCore3Temperature,
         CPUPackageTemperature,
         GPUCoreTemperature,
+        GPUPower,
         CPUPackagePower,
         CPUCoresPower,
         CPUDRAMPower
